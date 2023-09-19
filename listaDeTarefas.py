@@ -4,7 +4,14 @@ conexao = MongoClient("localhost", 27017)
 db = conexao["ListaDeTarefas"]
 colecao = db.get_collection("tarefas")
 
-class ListaDeTarefas:    
+class ListaDeTarefas:
+    def menu_principal(self):
+	    print('\n----------MENU PRINCIPAL----------\n')
+	    print('(1) Adicionar Tarefa')
+	    print('(2) Listar Tarefas')
+	    print('(3) Remover Tarefa')
+	    print('(0) Sair')
+        
     def determinarProximoId(self):
         response = colecao.find()
         listResponse = list(response)
@@ -30,12 +37,18 @@ class ListaDeTarefas:
         j = 0
         response = colecao.find()
         listResponse = list(response)
-        print("ID ------------ DESCRIÇÃO")
-        print()
-        for i in listResponse:
-           print(listResponse[j]["codigo"],"            ",listResponse[j]["descricao"])
-           j += 1        
-        print()
+        if not listResponse:
+            print("\nA LISTA DE TAREFAS ESTÁ VAZIA!")
+        else:
+            print("ID ------------ DESCRIÇÃO----------\n")
+            
+            for i in listResponse:
+                print(listResponse[j]["codigo"],"             ",listResponse[j]["descricao"])
+                j += 1        
+                print()
 
-    def excluirTarefa(self, id):
+    def removerTarefa(self, id):
         colecao.delete_one({"codigo":id})
+
+	
+    
